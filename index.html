@@ -1,37 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src='https://cdn.plot.ly/plotly-2.30.0.min.js'></script>
     <script>
-        function haalAlleEigenarenOp(){
+        function haalAlleEigenarenOp() {
             fetch("https://wt2404bewoz.azurewebsites.net/eigenaren/allen")
-            .then(r => r.json())
-            .then(d => toonEigenaren(d))
+                .then(r => r.json())
+                .then(d => toonEigenaren(d))
         }
-        function toonEigenaren(alleEigenaren){
-            for(let x = 0; x < alleEigenaren.length; x++){
+        function toonEigenaren(alleEigenaren) {
+            for (let x = 0; x < alleEigenaren.length; x++) {
                 document.getElementById("tooneigenarendiv").innerHTML += `${alleEigenaren[x].naam} <br>`
             }
         }
-        function haalAlleHuizenOp(){
+        function haalAlleHuizenOp() {
             fetch("https://wt2404bewoz.azurewebsites.net/huizen/allen")
-            .then(r => r.json())
-            .then(d => toonHuizen(d))
+                .then(r => r.json())
+                .then(d => toonHuizen(d))
         }
-        function toonHuizen(alleHuizen){
-            for(let x = 0; x < alleHuizen.length; x++){
+        let stedenArray = [];
+        let oppervlakteArray = [];
+        function toonHuizen(alleHuizen) {
+            for (let x = 0; x < alleHuizen.length; x++) {
                 document.getElementById("tooneigenarendiv").innerHTML += `${alleHuizen[x].adres} <br>`
             }
         }
+        function toonGrafiek(){
+            fetch("https://wt2404bewoz.azurewebsites.net/huizen/allen")
+                .then(r => r.json())
+                .then(d => maakGrafiek(d))
+
+        }
+        function maakGrafiek(alleHuizen){   
+            for (let x = 0; x < alleHuizen.length; x++) {
+                stedenArray.push(alleHuizen[x].adres);
+                oppervlakteArray.push(alleHuizen[x].oppervlakte);
+            }
+            var data = [
+                {
+                    x: stedenArray,
+                    y: oppervlakteArray,
+                    type: 'bar'
+                }
+            ];
+
+            Plotly.newPlot('grafiekDiv', data);
+        }
     </script>
 </head>
+
 <body>
     <h1>WOZ Berekening</h1>
     <button onclick="haalAlleEigenarenOp()">Toon Eigenaren</button>
     <div id="tooneigenarendiv"></div>
     <button onclick="haalAlleHuizenOp()">Toon Huizen</button>
-    
+    <hr>
+    <button onclick="toonGrafiek()">Toon Grafiek Huizen</button>
+    <div id='grafiekDiv'></div>
+
 </body>
+
 </html>
