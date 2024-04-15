@@ -13,6 +13,7 @@
                 .then(d => toonEigenaren(d))
         }
         function toonEigenaren(alleEigenaren) {
+            document.getElementById("tooneigenarendiv").innerHTML = "";
             for (let x = 0; x < alleEigenaren.length; x++) {
                 document.getElementById("tooneigenarendiv").innerHTML += `${alleEigenaren[x].naam} <br>`
             }
@@ -25,6 +26,7 @@
         let stedenArray = [];
         let oppervlakteArray = [];
         function toonHuizen(alleHuizen) {
+            document.getElementById("tooneigenarendiv").innerHTML = ""
             for (let x = 0; x < alleHuizen.length; x++) {
                 document.getElementById("tooneigenarendiv").innerHTML += `${alleHuizen[x].adres} <br>`
             }
