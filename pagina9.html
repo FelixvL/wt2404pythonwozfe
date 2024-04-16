@@ -19,8 +19,18 @@
 
             fetch(backendurl + "/gemeentes/" + zoekterm)
                 .then(r => r.json())
-                .then(d => maakWozTabel(d, zoekterm))
+                .then(d => maakContactgegevensTabel(d, zoekterm))
         }
+
+        function maakContactgegevensTabel(gemeenteArray, zoekterm){
+            let eindString = `<table class="table table-dark table-hover">`
+            for(let x=0; x < gemeenteArray.length; x++){
+                    eindString += `
+                    <tr><td>${gemeenteArray[x].contactgegevens}</td><td>${gemeenteArray[x].naam}</td></tr>
+                `
+            }
+            document.getElementById("tabeldiv").innerHTML += eindString+`</table>`
+          }
     </script>
 </head>
 
