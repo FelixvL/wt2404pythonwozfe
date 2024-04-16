@@ -14,19 +14,12 @@
         window.onload = function(){
             schrijfmenu();
         }
-        function fetchHuizenPagina2(){
-            fetch(backendurl + "/huizen/allen")
+        function fetchGemeenteContact(){
+            var zoekterm = document.getElementById("search").value;
+
+            fetch(backendurl + "/gemeentes/" + zoekterm)
                 .then(r => r.json())
-                .then(d => maakHuizenTabel(d))
-        }
-        function maakHuizenTabel(deHuizen){
-            let eindString = `<table class="table table-dark table-hover">`
-            for(let x=0; x < deHuizen.length; x++){
-                eindString += `
-                    <tr><td>${deHuizen[x].adres}</td><td>${deHuizen[x].bouwjaar}</td></tr>
-                `
-            }
-            document.getElementById("tabeldiv").innerHTML += eindString+`</table>`
+                .then(d => maakWozTabel(d, zoekterm))
         }
     </script>
 </head>
@@ -39,12 +32,12 @@
     <div class="col-sm-8">
         <div class="row">
             <div class="col-sm-12">
-                <input type="button" class="btn btn-primary" onclick="fetchHuizenPagina2()" value="Toon Huizen">
+                <form class="example" action="action_page.php">
+                    <label for="search">Zoeken:</label>
+                    <input type="text" id="search" name="search" placeholder="Gemeente">
+                    <input type="button" class="btn btn-primary" onclick="fetchGemeenteContact()" value="Toon Gemeente Contact Gegevens">
+                </form>
             </div>
-            <form class="example" action="action_page.php">
-                <input type="text" placeholder="Gemeente" name="search">
-                <button type="submit"><i class="fa fa-search"></i>Zoek</button>
-            </form>
         </div>
         <div class="row">
             <div class="col-sm-12" id="tabeldiv">
