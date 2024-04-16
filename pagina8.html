@@ -1,1 +1,83 @@
-8
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src='https://cdn.plot.ly/plotly-2.30.0.min.js'></script>
+    <script src="algemeen.js"></script>
+</head>
+<body>
+    <div id="menudiv"></div>
+
+    <input type="text" id="search" name="search" placeholder="Voer uw zoekterm in">
+    <input type="button" class="btn btn-primary" onclick="knopingedrukt()" value="Toon Woz Gegevens">
+
+    <select id="bedragdropdown">
+        <option value="1">
+            0 - 100.000
+        </option>
+        <option value="2">
+            100.001 - 200.000
+        </option>
+        <option value="3"> 
+            200.001 - 300.000
+        </option>
+    </select>
+
+    <div class="row">
+        <div class="col-sm-12" id="tabeldiv">
+            
+        </div>
+    </div>
+
+</body>
+<script>
+    window.onload = function(){
+            schrijfmenu();
+        }
+
+        function knopingedrukt() {
+            //console.log("Hallo wereld!!!");
+
+            var zoekterm = document.getElementById("search").value;
+            var bedragrange = document.getElementById("bedragdropdown").value;
+            //console.log(zoekterm);
+            //console.log(bedragrange);
+
+            fetch(backendurl+"/filter_huurwoningen/zoekterm/bedragrange")
+                .then(r => r.json())
+                .then(d => maakHuurwoningenGrafiek(d, zoekterm, bedragrange))
+                
+        }
+
+        function maakHuurwoningenGrafiek(deHuurwoningen, zoekterm, bedragrange){
+            //console.log(deHuurwoningen);
+            
+            let eindString = `<table class="table table-dark table-hover">`
+            for(let x=0; x < deHuurwoningen.length; x++){
+                //if(zoekterm == deHuurwoningen[x].Regionaam){
+                if(deHuurwoningen[x].Regionaam.indexOf(zoekterm)>-1){
+                    eindString += `
+                    <tr><td>${deHuurwoningen[x].Regionaam}</td><td>${deHuurwoningen[x].Huurwoninginbezitwoningcorporatie}</td></tr>
+                `
+                }
+            }
+            document.getElementById("tabeldiv").innerHTML += eindString+`</table>`
+
+            /*var data = [
+            {
+                x: [zoekterm],
+                y: [20, 14, 23],
+                
+                type: 'bar'
+            }
+        ];
+
+        Plotly.newPlot('myDiv', data);*/
+
+        }
+
+</script>
+</html>
