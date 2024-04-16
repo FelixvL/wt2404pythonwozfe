@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<head> Testing </head>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="algemeen.css">
+    <!-- <link rel="stylesheet" href="algemeen.css"> -->
     <script src='https://cdn.plot.ly/plotly-2.30.0.min.js'></script>
     <script src="algemeen.js"></script>
     <script>
@@ -19,36 +19,66 @@
                 .then(r => r.json())
                 .then(d => maakWozTabel(d))
         }
+        function toonGrafiek(){
+            fetch(backendurl + "/cbs/woz_per_regio_en_steden")
+                .then(r => r.json())
+                .then(d => maakGrafiek(d))
+        }
+        let provinciesArray = [];
+        let wozwaardeArray = [];
         function maakWozTabel(wozgegevensarray){
             let eindString = `<table class="table table-dark table-hover">`
-            for(let x=0; x < wozgegevensarray.length; x++){
+            for(let x=1; x < 13; x++){
                 eindString += `
                     <tr><td>${wozgegevensarray[x].Regionaam}</td><td>${wozgegevensarray[x].Koopwoningen}.000</td></tr>
                 `
             }
             document.getElementById("tabeldiv").innerHTML += eindString+`</table>`
         }
+
+        function maakGrafiek(alleHuizen){
+            for (let x = 1; x < 13; x++) {
+                provinciesArray.push(alleHuizen[x].Regionaam);
+                wozwaardeArray.push(alleHuizen[x].Koopwoningen);
+            }
+            var data = [
+                {
+                    x: provinciesArray,
+                    y: wozwaardeArray,
+                    type: 'bar'
+                }
+            ];
+
+            Plotly.newPlot('grafiekDiv', data);
+        }
     </script>
 </head>
 
 <body>
     <h1>Pagina2</h1>
+
+
     <div id="menudiv"></div>
+
     <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
             <div class="row">
                 <div class="col-sm-12">
+                  <div id='grafiekDiv'></div>
                     <input type="button" class="btn btn-primary" onclick="fetchWozCsvPagina3()" value="Toon Woz Gegevens">
+                    <input type="button" class="btn btn-primary" onclick="toonGrafiek()" value="Toon grafiek">
+
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12" id="tabeldiv">
-                    
+
                 </div>
             </div>
         </div>
-        <div class="col-sm-2"></div>  
+        <div class="col-sm-2"></div>
     </div>
+
 </body>
 </html>
