@@ -15,7 +15,7 @@
             schrijfmenu();
         }
         function fetchWozCsvPagina3(){
-            fetch(backendurl + "/cbs/woz_per_regio_en_steden")
+            fetch(backendurl + "/felixenjustin")
                 .then(r => r.json())
                 .then(d => maakWozTabel(d))
         }
@@ -23,7 +23,7 @@
             let eindString = `<table class="table table-dark table-hover">`
             for(let x=0; x < wozgegevensarray.length; x++){
                 eindString += `
-                    <tr><td>${wozgegevensarray[x].Regionaam}</td><td>${wozgegevensarray[x].Koopwoningen}.000</td></tr>
+                    <tr><td>${wozgegevensarray[x].adres}</td><td>${wozgegevensarray[x].oppervlakte}.000</td></tr>
                 `
             }
             document.getElementById("tabeldiv").innerHTML += eindString+`</table>`
@@ -32,7 +32,7 @@
 </head>
 
 <body>
-    <h1>Pagina2</h1>
+    <h1>justinenfelix</h1>
     <div id="menudiv"></div>
     <div class="row">
         <div class="col-sm-2"></div>
