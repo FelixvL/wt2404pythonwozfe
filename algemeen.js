@@ -9,5 +9,10 @@ function schrijfmenu(){
         <a href="pagina5.html">vivian en leoni</a>
         <a href="pagina6.html">amani en leon</a>
         <a href="pagina7.html">justin en felix</a>
+        <hr>
+        <a href="pagina8.html">felix en leonie</a>
+        <a href="pagina9.html">leon en nours</a>
+        <a href="pagina10.html">justin en vivian</a>
+        <a href="pagina11.html">amani en tjeerd</a>
     `
 }
