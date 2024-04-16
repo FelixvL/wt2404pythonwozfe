@@ -13,7 +13,8 @@
     <script src="algemeen.js"></script>
     <script>
         window.onload = function(){
-            schrijfmenu();
+            schrijfmenu()
+            toonhuizenbouw();
         }
         function fetchWozCsvPagina3(){
             fetch(backendurl + "/felixenjustin")
@@ -37,15 +38,29 @@
             document.getElementById("tabeldiv").innerHTML += eindString+`</table>`
         }
         let bouwjaar = [];
-        let adres = [];
+        let aantalHuizen = [];
         function grafiekhuizenbouw(alleHuizen){
-            for (let x = 0; x < alleHuizen.length; x++) {
-                adres.push(alleHuizen[x].adres);
-                bouwjaar.push(alleHuizen[x].bouwjaar);
+           let aantalHuizenPerBouwjaar = {};
+            alleHuizen.forEach(huis => {
+                const bouwjaar = huis.bouwjaar;
+                if (!aantalHuizenPerBouwjaar[bouwjaar]) {
+                    aantalHuizenPerBouwjaar[bouwjaar] = 0;
+                }
+                aantalHuizenPerBouwjaar[bouwjaar]++;
+            });
+
+            for (const jaar in aantalHuizenPerBouwjaar) {
+                bouwjaar.push(jaar);
+                aantalHuizen.push(aantalHuizenPerBouwjaar[jaar]);
             }
+           
+            // for (let x = 0; x < alleHuizen.length; x++) {
+               // adres.push(alleHuizen[x].adres);
+                //bouwjaar.push(alleHuizen[x].bouwjaar);
+           // }
             var trace1 = {
-             x: adres,
-             y: bouwjaar ,
+             x: bouwjaar,
+             y: aantalHuizen ,
              type: 'scatter'
             };
 
@@ -58,7 +73,8 @@
 </head>
 
 <body>
-    <h1>justinenfelix</h1>
+    <h1>Visualisatie van Huisgegevens:</h1>
+    <h2>Bouwjaren en Aantallen</h2>
     <div id="menudiv"></div>
     <div class="row">
         <div class="col-sm-2"></div>
@@ -66,8 +82,8 @@
             <div class="row">
                 <div id ="huizenbouw"></div> 
                 <div class="col-sm-12">
-                    <input type="button" class="btn btn-primary" onclick="fetchWozCsvPagina3()" value="Toon Woz Gegevens">
-                    <input type="button" class="btn btn-primary" onclick="toonhuizenbouw()" value="Toon huizenbouw">
+                   <!--<input type="button" class="btn btn-primary" onclick="fetchWozCsvPagina3()" value="Toon Woz Gegevens">-->
+                   <!--<input type="button" class="btn btn-primary" onclick="toonhuizenbouw()" value="Toon huizenbouw">-->
                 </div>
             </div>
             <div class="row">
